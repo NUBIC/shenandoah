@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "shenandoah"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{A javascript test framework for buildr, rails, and other ruby-built projects}
     gem.email = "rhett@detailedbalance.net"
     gem.homepage = "http://github.com/rsutphin/shenandoah"
     gem.authors = ["Rhett Sutphin"]
@@ -34,6 +34,8 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
+  # rcov can't tell that /Library/Ruby is a system path
+  spec.rcov_opts = ['--exclude', "spec/*,/Library/Ruby/*"]
 end
 
 task :default => :spec
