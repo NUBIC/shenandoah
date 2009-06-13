@@ -9,8 +9,7 @@ begin
     gem.email = "rhett@detailedbalance.net"
     gem.homepage = "http://github.com/rsutphin/shenandoah"
     gem.authors = ["Rhett Sutphin"]
-    gem.rubyforge_project = "shenandoah"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.rubyforge_project = "detailedbalance"
   end
 
   Jeweler::RubyforgeTasks.new
@@ -29,7 +28,6 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
-
 
 task :default => :spec
 
