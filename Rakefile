@@ -10,6 +10,13 @@ begin
     gem.homepage = "http://github.com/rsutphin/shenandoah"
     gem.authors = ["Rhett Sutphin"]
     gem.rubyforge_project = "detailedbalance"
+
+    gem.add_runtime_dependency('sinatra', '>= 0.9.2');
+    gem.add_runtime_dependency('haml', '>= 2.0.9');
+
+    gem.add_development_dependency('rspec', '>= 1.2.0')
+    gem.add_development_dependency('rack-test', '>= 0.3.0')
+    gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
   end
 
   Jeweler::RubyforgeTasks.new

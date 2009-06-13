@@ -1,0 +1,12 @@
+%html
+  %head
+    %link{ :rel => "stylesheet", :href => "/screw.css", :type => "text/css", :charset => "utf-8" }
+  %body
+    - if options.project_name
+      %h1= "Specs for #{options.project_name}"
+    - @sections.each do |section, tests|
+      %h2= section == '.' ? '[root]' : section
+      %ul
+        - tests.each do |test|
+          %li
+            %a{ :href => ["spec", section, test].reject { |s| s == '.' }.join('/') }= test.sub(/.html$/, '')
