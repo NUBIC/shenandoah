@@ -15,9 +15,18 @@ begin
     gem.add_runtime_dependency('haml', '>= 2.0.9')
     gem.add_runtime_dependency('rake')
 
-    gem.add_development_dependency('rspec', '>= 1.2.0')
+    # Have to use rspec 1.2.4 for buildr compat
+    gem.add_development_dependency('rspec', '= 1.2.4')
     gem.add_development_dependency('rack-test', '>= 0.3.0')
     gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
+    gem.add_development_dependency('braid', '>= 0.5.0')
+    
+    # These are the dependencies for the vendored buildr (used for testing)
+    gem.add_development_dependency('rake', '= 0.8.4')
+    gem.add_development_dependency('net-ssh', '= 2.0.11')
+    gem.add_development_dependency('net-sftp', '= 2.0.2')
+    gem.add_development_dependency('highline', '= 1.5.0')
+    gem.add_development_dependency('hoe', '= 1.12.2')
   end
 
   Jeweler::RubyforgeTasks.new
