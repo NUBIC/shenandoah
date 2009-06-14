@@ -2,9 +2,16 @@ require 'sinatra'
 require 'haml'
 
 module Shenandoah
+  # The server which enables in-browser execution of Screw.Unit specs in
+  # Shenandoah.
+  #
+  # It exposes a list of all the specs at the root of the server, 
+  # organized by subdirectory, with links to individual test fixtures.
+  # The contents of the +main_path+ and +spec_path+ in the configured locator
+  # are exposed under <tt>/main</tt> and <tt>/spec</tt> respectively.
   class Server < Sinatra::Base
     set :root, File.dirname(__FILE__) + "/server"
-    # set :port, 4410
+    set :port, 4410
 
     get '/' do
       section_map = options.locator.spec_files.
@@ -24,16 +31,6 @@ module Shenandoah
       map_file(options.locator.spec_path, params[:splat].first, "Spec")
     end
 
-    def map_file(path, name, desc)
-      file = File.join(path, name)
-      if File.exist?(file)
-        headers['Cache-Control'] = 'no-cache'
-        send_file file
-      else
-        halt 404, "#{desc} file not found: #{file}"
-      end
-    end
-
     get '/screw.css' do
       screw_css = File.join(options.locator.spec_path, 'screw.css')
       unless File.exist?(screw_css)
@@ -45,11 +42,11 @@ module Shenandoah
     get '/shenandoah/browser-runner.js' do
       content_type 'text/javascript'
 
-      last_modified self.class.runner_files.collect { |filename|
+      last_modified runner_files.collect { |filename|
         File.stat("#{File.dirname(__FILE__)}/#{filename}").mtime
       }.max
 
-      self.class.runner_files.collect { |filename|
+      runner_files.collect { |filename|
         [
           "\n//////\n////// #{filename}\n//////\n",
           File.read("#{File.dirname(__FILE__)}/#{filename}")
@@ -57,7 +54,19 @@ module Shenandoah
       }.flatten
     end
 
-    def self.runner_files
+    protected
+
+    def map_file(path, name, desc) # :nodoc:
+      file = File.join(path, name)
+      if File.exist?(file)
+        headers['Cache-Control'] = 'no-cache'
+        send_file file
+      else
+        halt 404, "#{desc} file not found: #{file}"
+      end
+    end
+
+    def runner_files # :nodoc:
       # Can't just use Dir[] because order is important
       [
         "javascript/common/jquery-1.3.2.js",

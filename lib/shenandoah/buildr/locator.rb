@@ -1,7 +1,7 @@
 require 'shenandoah/locator'
 
-module Shenandoah
-  module Buildr
+module Shenandoah # :nodoc:
+  module Buildr # :nodoc:
     class Locator < DefaultLocator
       def initialize(project)
         super(

@@ -1,8 +1,8 @@
 require 'shenandoah/runner'
 require 'shenandoah/buildr/locator'
 
-module Buildr
-  module JavaScript
+module Buildr # :nodoc:
+  module JavaScript # :nodoc:
     class Shenandoah < TestFramework::Base
       class << self
         def applies_to?(project)
