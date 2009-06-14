@@ -12,6 +12,7 @@ module Shenandoah
   class Server < Sinatra::Base
     set :root, File.dirname(__FILE__) + "/server"
     set :port, 4410
+    enable :logging
 
     get '/' do
       section_map = options.locator.spec_files.
