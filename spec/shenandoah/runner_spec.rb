@@ -14,7 +14,7 @@ describe Shenandoah::Runner do
       :main_path => "#{tmpdir}/main",
       :tmp_path  => "#{tmpdir}/tmp"
     )
-    %w(spec main tmp).each { |d| FileUtils.mkdir_p "#{tmpdir}/#{d}" }
+    %w(spec main).each { |d| FileUtils.mkdir_p "#{tmpdir}/#{d}" }
     @runner = Shenandoah::Runner.new(@locator, :quiet => true)
   end
 

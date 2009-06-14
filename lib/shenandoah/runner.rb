@@ -54,7 +54,7 @@ module Shenandoah
     end
 
     def create_shell_html
-      $stderr.puts "Creating shell.html in #{shell_html_path}"
+      FileUtils.mkdir_p File.dirname(shell_html_path)
       File.open(shell_html_path, 'w') do |f|
         f.write "<html><body></body></html>"
       end
@@ -62,6 +62,7 @@ module Shenandoah
 
     def create_shell_js
       js = ERB.new(File.read(shen_path_to('lib/shenandoah/javascript/console/shell.js.erb'))).result(binding)
+      FileUtils.mkdir_p File.dirname(shell_js_path)
       File.open(shell_js_path, 'w') { |f| f.write js }
     end
   end
