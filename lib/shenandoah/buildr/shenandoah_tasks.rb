@@ -10,7 +10,8 @@ module Buildr::JavaScript # :nodoc:
     after_define do |project|
       if project.test.framework == :shenandoah
         ::Shenandoah::Tasks.new(
-          :locator => ::Shenandoah::Buildr::Locator.new(project))
+          :locator => ::Shenandoah::Buildr::Locator.new(project),
+          :project_name => project.name)
       end
     end
   end
