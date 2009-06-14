@@ -6,6 +6,7 @@ require 'time'
 require 'fileutils'
 
 require 'shenandoah/server'
+require 'shenandoah/locator'
 
 describe Shenandoah::Server do
   include Rack::Test::Methods
@@ -171,7 +172,6 @@ describe Shenandoah::Server do
     before do
       app.set :locator, 
         Shenandoah::DefaultLocator.new(:spec_path => File.join(self.tmpdir, 'spec'))
-      app.set :project_name, "Some Proj"
       tmpfile "spec/common_spec.js", "DC"
       tmpfile "spec/some/thing_spec.js", "DC"
       get "/"
@@ -182,7 +182,15 @@ describe Shenandoah::Server do
     end
 
     it "includes an overall heading" do
+      app.set :project_name, "Some Proj"
+      get "/"
       last_response.body.should have_tag("h1", "Specs for Some Proj")
+    end
+
+    it "does not include an overall heading without the project name" do
+      app.set :project_name, nil
+      get "/"
+      last_response.body.should_not have_tag("h1")
     end
 
     it "includes a section heading for the root set" do
