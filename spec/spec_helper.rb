@@ -14,10 +14,10 @@ module Shenandoah
       attr_accessor :tmpdir
 
       def tmpfile(name, contents="contents not important")
-        f = "#{tmpdir}/#{name}"
-        FileUtils.mkdir_p File.dirname(f)
-        File.open(f, 'w') { |f| f.write contents }
-        f
+        n = "#{tmpdir}/#{name}"
+        FileUtils.mkdir_p File.dirname(n)
+        File.open(n, 'w') { |f| f.write contents }
+        n
       end
 
       def self.included(klass)
