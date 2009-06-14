@@ -7,8 +7,8 @@ module Shenandoah
     # set :port, 4410
 
     get '/' do
-      section_map = Dir["#{options.spec_path}/**/*_spec.js"].
-        collect { |t| t.sub(%r{^#{options.spec_path}/?}, '') }.
+      section_map = options.locator.spec_files.
+        collect { |t| t.sub(%r{^#{options.locator.spec_path}/?}, '') }.
         collect { |t| [File.dirname(t), File.basename(t).sub(/_spec.js$/, '.html')] }.
         inject({}) { |h, (dir, file)| h[dir] ||= []; h[dir] << file; h }
       @sections = section_map.collect { |dir, files| [dir, files.sort] }.sort
@@ -17,11 +17,11 @@ module Shenandoah
     end
     
     get '/main/*' do
-      map_file(options.main_path, params[:splat].first, "Main")
+      map_file(options.locator.main_path, params[:splat].first, "Main")
     end
 
     get '/spec/*' do
-      map_file(options.spec_path, params[:splat].first, "Spec")
+      map_file(options.locator.spec_path, params[:splat].first, "Spec")
     end
 
     def map_file(path, name, desc)
@@ -35,7 +35,7 @@ module Shenandoah
     end
 
     get '/screw.css' do
-      screw_css = File.join(options.spec_path, 'screw.css')
+      screw_css = File.join(options.locator.spec_path, 'screw.css')
       unless File.exist?(screw_css)
         screw_css = File.join(File.dirname(__FILE__), 'css/screw.css')
       end

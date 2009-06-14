@@ -10,25 +10,14 @@ require 'shenandoah/server'
 describe Shenandoah::Server do
   include Rack::Test::Methods
   include FileUtils
+  include Shenandoah::Spec::Tmpfile
 
   def app
     Shenandoah::Server
   end
 
-  def tmpfile(name, contents)
-    f = "#{@tmpdir}/#{name}"
-    mkdir_p File.dirname(f)
-    File.open(f, 'w') { |f| f.write contents }
-    f
-  end
-
   before do
     app.set :environment, :test
-    mkdir_p(@tmpdir = File.dirname(__FILE__) + "/tmp")
-  end
-
-  after do
-    rm_r @tmpdir
   end
 
   describe "/shenandoah/browser-runner.js" do
@@ -83,7 +72,9 @@ describe Shenandoah::Server do
   %w(main spec).each do |kind|
     describe "/#{kind}/*" do
       before do
-        app.set :"#{kind}_path", "#{@tmpdir}/#{kind.hash}";
+        app.set :locator, 
+          Shenandoah::DefaultLocator.new(
+            :"#{kind}_path" => "#{self.tmpdir}/#{kind.hash}")
       end
 
       describe "for an existing file" do
@@ -116,7 +107,7 @@ describe Shenandoah::Server do
 
         it "has a reasonable error message" do
           last_response.body.should ==
-            "#{kind.capitalize} file not found: #{@tmpdir}/#{kind.hash}/bad.js"
+            "#{kind.capitalize} file not found: #{self.tmpdir}/#{kind.hash}/bad.js"
         end
       end
     end
@@ -149,7 +140,8 @@ describe Shenandoah::Server do
 
     describe "when overridden" do
       before do
-        app.set :spec_path, @tmpdir
+        app.set :locator, 
+          Shenandoah::DefaultLocator.new(:spec_path => self.tmpdir)
         tmpfile "screw.css", ".passed { color: blue }"
         get '/screw.css'
       end
@@ -164,7 +156,7 @@ describe Shenandoah::Server do
 
       it "has the correct last modified version" do
         Time.httpdate(last_response.headers['Last-Modified']).should ==
-          File.stat("#{@tmpdir}/screw.css").mtime
+          File.stat("#{self.tmpdir}/screw.css").mtime
       end
 
       it "is CSS" do
@@ -177,7 +169,8 @@ describe Shenandoah::Server do
     include RspecHpricotMatchers
 
     before do
-      app.set :spec_path, File.join(@tmpdir, 'spec')
+      app.set :locator, 
+        Shenandoah::DefaultLocator.new(:spec_path => File.join(self.tmpdir, 'spec'))
       app.set :project_name, "Some Proj"
       tmpfile "spec/common_spec.js", "DC"
       tmpfile "spec/some/thing_spec.js", "DC"
