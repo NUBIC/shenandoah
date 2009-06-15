@@ -11,6 +11,9 @@ begin
     gem.authors = ["Rhett Sutphin"]
     gem.rubyforge_project = "detailedbalance"
 
+    # Exclude test-only vendored buildr
+    gem.files.exclude("vendor/**/*")
+
     gem.add_runtime_dependency('sinatra', '>= 0.9.2')
     gem.add_runtime_dependency('haml', '>= 2.0.9')
     gem.add_runtime_dependency('rake')
