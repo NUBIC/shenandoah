@@ -1,7 +1,0 @@
-= shenandoah
-
-Description goes here.
-
-== Copyright
-
-Copyright (c) 2009 Rhett Sutphin. See LICENSE for details.
