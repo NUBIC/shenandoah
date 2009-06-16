@@ -11,12 +11,21 @@ end
 module Shenandoah
   module Spec
     module Tmpfile
-      attr_accessor :tmpdir
-
+      attr_writer :tmpdir
+      
       def tmpfile(name, contents="contents not important")
         n = "#{tmpdir}/#{name}"
         FileUtils.mkdir_p File.dirname(n)
         File.open(n, 'w') { |f| f.write contents }
+        n
+      end
+      
+      def tmpdir(name=nil)
+        n = @tmpdir
+        if (name)
+          n = File.join(n, name)
+          FileUtils.mkdir_p(n)
+        end
         n
       end
 

@@ -2,15 +2,24 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 require 'shenandoah/tasks'
 require 'shenandoah/locator'
+require 'shenandoah/rails/locator'
 
 describe Shenandoah::Tasks do
   describe "init" do
+    include Shenandoah::Spec::Tmpfile
+    
     it "uses a DefaultLocator by default" do
       Shenandoah::Tasks.new.locator.class.should == Shenandoah::DefaultLocator
     end
 
     it "configures the default locator with the provided options" do
       Shenandoah::Tasks.new(:main_path => 'foo').locator.main_path.should == 'foo'
+    end
+    
+    it "uses an explictly provided locator, ignoring other options" do
+      loc = Shenandoah::DefaultLocator.new(:main_path => 'bar')
+      tasks = Shenandoah::Tasks.new(:locator => loc, :main_path => 'foo')
+      tasks.locator.main_path.should == 'bar'
     end
   end
 

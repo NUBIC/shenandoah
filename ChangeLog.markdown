@@ -1,3 +1,8 @@
+0.1.0
+=====
+
+* Supports easier configuration with rails
+
 shenandoah 0.0.0
 ================
 

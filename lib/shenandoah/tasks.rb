@@ -12,7 +12,7 @@ module Shenandoah
         if options[:locator]
           options[:locator]
         else
-          DefaultLocator.new(options)
+          default_locator_type.new(options)
         end
       @runner = Shenandoah::Runner.new(@locator)
       create_serve_task
@@ -32,6 +32,10 @@ module Shenandoah
     end
     
     protected
+    
+    def default_locator_type
+      DefaultLocator
+    end
     
     def create_serve_task
       task('shen:serve') do |t|

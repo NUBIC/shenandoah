@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shenandoah}
-  s.version = "0.0.0"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rhett Sutphin"]
-  s.date = %q{2009-06-14}
+  s.date = %q{2009-06-16}
   s.email = %q{rhett@detailedbalance.net}
   s.extra_rdoc_files = [
     "ChangeLog.markdown",
@@ -20,12 +20,14 @@ Gem::Specification.new do |s|
     ".braids",
      ".document",
      ".gitignore",
+     "ChangeLog.markdown",
      "LICENSE",
      "LICENSE-Blue-Ridge",
      "LICENSE-Screw.Unit",
      "LICENSE-Smoke",
      "README.markdown",
      "Rakefile",
+     "VERSION.yml",
      "lib/shenandoah/buildr.rb",
      "lib/shenandoah/buildr/locator.rb",
      "lib/shenandoah/buildr/shenandoah_tasks.rb",
@@ -49,26 +51,30 @@ Gem::Specification.new do |s|
      "lib/shenandoah/javascript/console/runner.js",
      "lib/shenandoah/javascript/console/shell.js.erb",
      "lib/shenandoah/locator.rb",
+     "lib/shenandoah/rails/locator.rb",
+     "lib/shenandoah/rails/tasks.rb",
      "lib/shenandoah/runner.rb",
      "lib/shenandoah/server.rb",
      "lib/shenandoah/server/views/index.haml",
      "lib/shenandoah/tasks.rb",
+     "shenandoah.gemspec",
      "spec/shenandoah/buildr/locator_spec.rb",
      "spec/shenandoah/buildr/shenandoah_tasks_spec.rb",
      "spec/shenandoah/buildr/spec_helper.rb",
      "spec/shenandoah/buildr/test_framework_spec.rb",
      "spec/shenandoah/locator_spec.rb",
+     "spec/shenandoah/rails/locator_spec.rb",
+     "spec/shenandoah/rails/tasks_spec.rb",
      "spec/shenandoah/runner_spec.rb",
      "spec/shenandoah/server_spec.rb",
      "spec/shenandoah/tasks_spec.rb",
      "spec/spec_helper.rb"
   ]
-  s.has_rdoc = true
   s.homepage = %q{http://github.com/rsutphin/shenandoah}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{detailedbalance}
-  s.rubygems_version = %q{1.3.1}
+  s.rubygems_version = %q{1.3.4}
   s.summary = %q{A javascript test framework for buildr, rails, and other ruby-built projects}
   s.test_files = [
     "spec/shenandoah/buildr/locator_spec.rb",
@@ -76,6 +82,8 @@ Gem::Specification.new do |s|
      "spec/shenandoah/buildr/spec_helper.rb",
      "spec/shenandoah/buildr/test_framework_spec.rb",
      "spec/shenandoah/locator_spec.rb",
+     "spec/shenandoah/rails/locator_spec.rb",
+     "spec/shenandoah/rails/tasks_spec.rb",
      "spec/shenandoah/runner_spec.rb",
      "spec/shenandoah/server_spec.rb",
      "spec/shenandoah/tasks_spec.rb",
@@ -84,7 +92,7 @@ Gem::Specification.new do |s|
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<sinatra>, [">= 0.9.2"])

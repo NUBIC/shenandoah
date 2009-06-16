@@ -62,7 +62,32 @@ To start the shell:
 
 ### Use with Rails
 
-TODO
+Add a config.gem entry in environment.rb:
+
+    config.gem "shenandoah", :version => '0.1.0', :lib => false
+
+Create a file `lib/tasks/shenandoah.rake`:
+
+    require 'shenandoah/rails/tasks'
+    Shenandoah::Rails::Tasks.new
+
+In a rails project, Shenandoah will look for specs in `spec/javascript`, `examples/javascript`, or `test/javascript`.  The main path is `public/javascripts`.
+
+To run the specs from the command line:
+
+    $ rake shen:spec
+
+To run an individual spec file called "application_spec.js":
+
+    $ rake shen:spec SHEN_SPEC=application
+
+To start the server:
+
+    $ rake shen:serve
+
+To start the shell:
+
+    $ rake shen:shell
 
 ### Use with rake (in general)
 
@@ -142,17 +167,13 @@ It's very easy to add support for Prototype.  Here's an example spec:
 More Examples
 -------------
 
-TODO.
-
-<!--
-To see Shenandoah in action inside a working Rails app, check out the [Shenandoah sample application](http://github.com/relevance/shenandoah-rails-sample-app).  Among other things, this sample app includes examples of:
+To see Shenandoah in action inside a working Rails app, check out the [Shenandoah sample application](http://github.com/rsutphin/shenandoah-rails-sample-app).  Among other things, this sample app includes examples of:
 
 * using nested `describe` functions
 * setting up per-spec HTML "fixtures"
 * stubbing functions
 * mocking functions
 * running the javascript specs as part of your default Rake task
--->
 
 JavaScript API
 --------------
