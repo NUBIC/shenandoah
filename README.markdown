@@ -66,10 +66,9 @@ Add a config.gem entry in environment.rb:
 
     config.gem "shenandoah", :version => '0.1.0', :lib => false
 
-Create a file `lib/tasks/shenandoah.rake`:
+Install the rake tasks:
 
-    require 'shenandoah/rails/tasks'
-    Shenandoah::Rails::Tasks.new
+    $ script/generate shenandoah
 
 In a rails project, Shenandoah will look for specs in `spec/javascript`, `examples/javascript`, or `test/javascript`.  The main path is `public/javascripts`.
 

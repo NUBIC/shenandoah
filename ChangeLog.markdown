@@ -2,6 +2,8 @@
 =====
 
 * Supports easier configuration with rails
+  * script/generate shenandoah to outfit a rails project
+  * script/generate shen_spec *name* to generate a spec and a fixture
 
 shenandoah 0.0.0
 ================

@@ -41,5 +41,21 @@ module Shenandoah
         end
       end
     end
+
+    module RailsRoot
+      def self.included(klass)
+        klass.class_eval do
+          include Shenandoah::Spec::Tmpfile
+
+          before do
+            Object.const_set(:RAILS_ROOT, tmpdir('rails-root'))
+          end
+
+          after do
+            Object.instance_eval { remove_const :RAILS_ROOT }
+          end
+        end
+      end
+    end
   end
 end

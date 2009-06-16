@@ -57,7 +57,18 @@ Gem::Specification.new do |s|
      "lib/shenandoah/server.rb",
      "lib/shenandoah/server/views/index.haml",
      "lib/shenandoah/tasks.rb",
+     "rails_generators/shen_spec/shen_spec_generator.rb",
+     "rails_generators/shen_spec/templates/fixture.html.erb",
+     "rails_generators/shen_spec/templates/javascript_spec.js.erb",
+     "rails_generators/shenandoah/shenandoah_generator.rb",
+     "rails_generators/shenandoah/templates/application.html",
+     "rails_generators/shenandoah/templates/application_spec.js",
+     "rails_generators/shenandoah/templates/shenandoah.rake",
+     "rails_generators/shenandoah/templates/spec_helper.js",
      "shenandoah.gemspec",
+     "spec/rails_generators/shen_spec_generator_spec.rb",
+     "spec/rails_generators/shenandoah_generator_spec.rb",
+     "spec/rails_generators/spec_helper.rb",
      "spec/shenandoah/buildr/locator_spec.rb",
      "spec/shenandoah/buildr/shenandoah_tasks_spec.rb",
      "spec/shenandoah/buildr/spec_helper.rb",
@@ -77,7 +88,10 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.4}
   s.summary = %q{A javascript test framework for buildr, rails, and other ruby-built projects}
   s.test_files = [
-    "spec/shenandoah/buildr/locator_spec.rb",
+    "spec/rails_generators/shen_spec_generator_spec.rb",
+     "spec/rails_generators/shenandoah_generator_spec.rb",
+     "spec/rails_generators/spec_helper.rb",
+     "spec/shenandoah/buildr/locator_spec.rb",
      "spec/shenandoah/buildr/shenandoah_tasks_spec.rb",
      "spec/shenandoah/buildr/spec_helper.rb",
      "spec/shenandoah/buildr/test_framework_spec.rb",
@@ -98,6 +112,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sinatra>, [">= 0.9.2"])
       s.add_runtime_dependency(%q<haml>, [">= 2.0.9"])
       s.add_runtime_dependency(%q<rake>, [">= 0"])
+      s.add_runtime_dependency(%q<rails>, [">= 2.1.0"])
       s.add_development_dependency(%q<rspec>, ["= 1.2.4"])
       s.add_development_dependency(%q<rack-test>, [">= 0.3.0"])
       s.add_development_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
@@ -111,6 +126,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sinatra>, [">= 0.9.2"])
       s.add_dependency(%q<haml>, [">= 2.0.9"])
       s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<rails>, [">= 2.1.0"])
       s.add_dependency(%q<rspec>, ["= 1.2.4"])
       s.add_dependency(%q<rack-test>, [">= 0.3.0"])
       s.add_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
@@ -125,6 +141,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sinatra>, [">= 0.9.2"])
     s.add_dependency(%q<haml>, [">= 2.0.9"])
     s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<rails>, [">= 2.1.0"])
     s.add_dependency(%q<rspec>, ["= 1.2.4"])
     s.add_dependency(%q<rack-test>, [">= 0.3.0"])
     s.add_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
