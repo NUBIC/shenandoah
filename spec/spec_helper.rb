@@ -1,5 +1,8 @@
 require 'spec'
 require 'rubygems'
+# Rake needs to be locked to the version that buildr expects before
+# anything else loads and gets the most recent installed version
+gem 'rake', '= 0.8.4'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
