@@ -22,6 +22,7 @@ begin
     # Have to use rspec 1.2.4 for buildr compat
     gem.add_development_dependency('rspec', '= 1.2.4')
     gem.add_development_dependency('rack-test', '>= 0.3.0')
+    gem.add_development_dependency('hpricot', '>= 0.8.1')
     gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
     gem.add_development_dependency('braid', '>= 0.5.0')
     
@@ -31,6 +32,13 @@ begin
     gem.add_development_dependency('net-sftp', '= 2.0.2')
     gem.add_development_dependency('highline', '= 1.5.0')
     gem.add_development_dependency('hoe', '= 1.12.2')
+    gem.add_development_dependency('rubyzip', '= 0.9.1')
+    gem.add_development_dependency('builder', '= 2.1.2')
+    gem.add_development_dependency('rubyforge', '= 1.0.3')
+    gem.add_development_dependency('rjb', '= 1.1.6')
+    gem.add_development_dependency('Antwrap', '= 0.7.0')
+    gem.add_development_dependency('xml-simple', '= 1.0.12')
+    gem.add_development_dependency('archive-tar-minitar', '= 0.5.2')
   end
 
   Jeweler::RubyforgeTasks.new
@@ -41,6 +49,7 @@ end
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
+  spec.verbose = true
   spec.spec_files = FileList['spec/**/*_spec.rb']
 end
 
