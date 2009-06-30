@@ -1,3 +1,8 @@
+0.1.1
+=====
+
+* Correct bug in Shenandoah::Tasks which made plain-Rakefile use not work
+
 0.1.0
 =====
 

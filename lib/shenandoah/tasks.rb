@@ -1,4 +1,5 @@
 require 'rake'
+require 'shenandoah/locator'
 require 'shenandoah/runner'
 require 'shenandoah/server'
 
