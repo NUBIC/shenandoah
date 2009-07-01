@@ -69,9 +69,9 @@ describe Shenandoah::Runner do
   describe "#run_shell" do
     before do
       script_contents = ERB.new(<<-RUBY).result(binding)
-        # This is a small script to invoke Runner#run_shell so that it's
+        # This is a small script to invoke Runner#run_shell so that its
         # input and output can be controlled for testing
-        <% $LOAD_PATH.select { |p| p =~ /shenandoah/ }.each do |p| %>
+        <% Shenandoah::Spec.load_path_additions.each do |p| %>
           $LOAD_PATH.unshift(<%= p.inspect %>)
         <% end %>
         require 'rubygems'

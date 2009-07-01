@@ -4,15 +4,19 @@ require 'rubygems'
 # anything else loads and gets the most recent installed version
 gem 'rake', '= 0.8.4'
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-
 Spec::Runner.configure do |config|
   
 end
 
 module Shenandoah
   module Spec
+    def self.load_path_additions
+      [
+        File.dirname(__FILE__),
+        File.join(File.dirname(__FILE__), '..', 'lib')
+      ]
+    end
+    
     module Tmpfile
       attr_writer :tmpdir
       
@@ -62,3 +66,5 @@ module Shenandoah
     end
   end
 end
+
+Shenandoah::Spec.load_path_additions.each { |p| $LOAD_PATH.unshift(p) }
