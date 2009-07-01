@@ -28,7 +28,7 @@ module Shenandoah
       create_shell_html
       create_shell_js
 
-      rlwrap = `which rlwrap`.chomp
+      rlwrap = `which rlwrap`.chomp.sub(/^no.*/, '') # some versions of which report errors on stdout
       cmd = "#{rlwrap} #{rhino_command('-f', shell_js_path, '-f', '-')}"
       $stderr.puts "Starting shell with #{cmd}"
       system(cmd)
