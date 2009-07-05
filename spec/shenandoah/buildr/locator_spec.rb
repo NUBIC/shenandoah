@@ -25,9 +25,9 @@ describe Shenandoah::Buildr::Locator do
   
   it "allows main to be overriden with test.using" do |variable|
     p = define('another', :base_dir => tmpdir) do
-      test.using :main_path => "foo"
+      test.using :main_path => "/foo"
     end
     
-    Shenandoah::Buildr::Locator.new(p).main_path.should == "foo"
+    Shenandoah::Buildr::Locator.new(p).main_path.should == "/foo"
   end
 end

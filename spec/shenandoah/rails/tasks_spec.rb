@@ -26,7 +26,7 @@ describe Shenandoah::Rails::Tasks do
   end
 
   it "uses the explicitly provided locator over all others" do
-    loc = Shenandoah::DefaultLocator.new(:main_path => 'foo')
-    Shenandoah::Rails::Tasks.new(:locator => loc).locator.main_path.should == 'foo'
+    loc = Shenandoah::DefaultLocator.new(:main_path => '/foo')
+    Shenandoah::Rails::Tasks.new(:locator => loc).locator.main_path.should == '/foo'
   end
 end

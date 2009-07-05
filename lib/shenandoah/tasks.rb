@@ -24,7 +24,7 @@ module Shenandoah
     def run_specs
       files = @locator.spec_files
       if ENV['SHEN_SPEC']
-        trace "limiting shenandoah specs based on #{ENV[SHEN_SPEC].inspect}"
+        trace "limiting shenandoah specs based on #{ENV['SHEN_SPEC'].inspect}"
         files = files.select { |f| f =~ /#{ENV['SHEN_SPEC']}/ }
       end
       trace "running shenandoah specs\n - #{files.join("\n - ")}"

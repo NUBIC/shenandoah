@@ -13,13 +13,13 @@ describe Shenandoah::Tasks do
     end
 
     it "configures the default locator with the provided options" do
-      Shenandoah::Tasks.new(:main_path => 'foo').locator.main_path.should == 'foo'
+      Shenandoah::Tasks.new(:main_path => '/foo').locator.main_path.should == '/foo'
     end
     
     it "uses an explictly provided locator, ignoring other options" do
-      loc = Shenandoah::DefaultLocator.new(:main_path => 'bar')
+      loc = Shenandoah::DefaultLocator.new(:main_path => '/bar')
       tasks = Shenandoah::Tasks.new(:locator => loc, :main_path => 'foo')
-      tasks.locator.main_path.should == 'bar'
+      tasks.locator.main_path.should == '/bar'
     end
   end
 

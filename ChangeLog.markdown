@@ -3,6 +3,7 @@
 
 * Correct bug in Shenandoah::Tasks which made plain-Rakefile use not work
 * Add task descriptions for all the tasks -- visible with rake -T
+* Automatically absolutize locator paths for plain-Rakefile use
 
 0.1.0
 =====
