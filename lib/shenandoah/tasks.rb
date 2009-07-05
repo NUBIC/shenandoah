@@ -39,6 +39,7 @@ module Shenandoah
     end
     
     def create_serve_task
+      desc "Start the in-browser JavaScript spec runner on http://localhost:4410/"
       task('shen:serve') do |t|
         Shenandoah::Server.set :locator, @locator
         if @options[:project_name]
@@ -49,12 +50,14 @@ module Shenandoah
     end
     
     def create_shell_task
+      desc "Start the Shenandoah interactive JavaScript shell"
       task('shen:shell') do |t|
         @runner.run_shell
       end
     end
     
     def create_run_task
+      desc "Run the JavaScript specs"
       task('shen:spec') do |t|
         run_specs
       end

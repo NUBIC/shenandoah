@@ -35,13 +35,28 @@ describe Shenandoah::Tasks do
     it "adds a shen:serve task" do
       Rake::Task::task_defined?('shen:serve').should be_true
     end
+    
+    it "gives the shen:serve task a description" do
+      Rake::Task['shen:serve'].full_comment.should == 
+        "Start the in-browser JavaScript spec runner on http://localhost:4410/"
+    end
 
     it "adds a shen:shell task" do
       Rake::Task::task_defined?('shen:shell').should be_true
     end
 
+    it "gives the shen:shell task a description" do
+      Rake::Task['shen:shell'].full_comment.should == 
+        "Start the Shenandoah interactive JavaScript shell"
+    end
+
     it "adds a shen:spec task" do
       Rake::Task::task_defined?('shen:spec').should be_true
+    end
+
+    it "gives the shen:spec task a description" do
+      Rake::Task['shen:spec'].full_comment.should == 
+        "Run the JavaScript specs"
     end
   end
 
