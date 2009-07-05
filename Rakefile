@@ -63,18 +63,27 @@ end
 
 task :default => :spec
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
+def version
   if File.exist?('VERSION.yml')
     config = YAML.load(File.read('VERSION.yml'))
-    version = "#{config[:major]}.#{config[:minor]}.#{config[:patch]}"
+    "#{config[:major]}.#{config[:minor]}.#{config[:patch]}"
   else
-    version = ""
+    ""
   end
+end
 
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "shenandoah #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+desc "Uninstall the current (development) version of the gem"
+task :uninstall do |t|
+  system("sudo gem uninstall shenandoah -v #{version}")
+end
+
+task :build => [:gemspec]
+task :install => [:uninstall]
