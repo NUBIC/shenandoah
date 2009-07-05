@@ -24,8 +24,10 @@ module Shenandoah
     def run_specs
       files = @locator.spec_files
       if ENV['SHEN_SPEC']
+        trace "limiting shenandoah specs based on #{ENV[SHEN_SPEC].inspect}"
         files = files.select { |f| f =~ /#{ENV['SHEN_SPEC']}/ }
       end
+      trace "running shenandoah specs\n - #{files.join("\n - ")}"
       successes = @runner.run_console(files)
       if (successes.size != files.size)
         raise "Shenandoah specs failed!"
@@ -33,6 +35,10 @@ module Shenandoah
     end
     
     protected
+    
+    def trace(msg)
+      $stderr.puts msg if Rake.application.options.trace
+    end
     
     def default_locator_type
       DefaultLocator
