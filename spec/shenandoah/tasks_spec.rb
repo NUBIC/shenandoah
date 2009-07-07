@@ -91,6 +91,13 @@ describe Shenandoah::Tasks do
       @tasks.run_specs
     end
 
+    it "only runs the specs matching the pattern argument" do
+      @locator.should_receive(:spec_files).and_return(%w(ab bc cd))
+      @runner.should_receive(:run_console).with(%w(bc cd)).and_return(%w(bc cd))
+
+      @tasks.run_specs 'c'
+    end
+
     it "throws an exception on failure" do
       @locator.should_receive(:spec_files).and_return(%w(a b c))
       @runner.should_receive(:run_console).with(%w(a b c)).and_return(%w(a b))
@@ -109,17 +116,17 @@ describe Shenandoah::Tasks do
       RUBY
     end
 
-    def run_specs
+    def run_specs(task='shen:spec')
       FileUtils.cd @tmpdir do
-        Open3.popen3("rake _0.8.4_ shen:spec") do |stdin, stdout, stderr|
+        Open3.popen3("rake _#{SHEN_RAKE_VERSION}_ #{task}") do |stdin, stdout, stderr|
           stdin.close
           return stdout.read, stderr.read
         end
       end
     end
 
-    it "passes for a good spec" do
-      tmpfile "spec/good_spec.js", <<-JS
+    def create_passing_spec(name='good')
+      tmpfile "spec/#{name}_spec.js", <<-JS
         Screw.Unit(function () {
           describe("good", function () {
             it("passes", function () {
@@ -128,21 +135,16 @@ describe Shenandoah::Tasks do
           });
         });
       JS
-      tmpfile "spec/good.html", <<-HTML
+      tmpfile "spec/#{name}.html", <<-HTML
         <html>
           <head></head>
           <body></body>
         </html>
       HTML
-
-      out, err = run_specs
-
-      err.should == ""
-      out.should =~ %r{1 test\(s\), 0 failure\(s\)}
     end
 
-    it "fails for a bad spec" do
-      tmpfile "spec/bad_spec.js", <<-JS
+    def create_failing_spec(name='bad')
+      tmpfile "spec/#{name}_spec.js", <<-JS
         Screw.Unit(function () {
           describe("bad", function () {
             it("fails", function () {
@@ -151,17 +153,67 @@ describe Shenandoah::Tasks do
           });
         });
       JS
-      tmpfile "spec/bad.html", <<-HTML
+      tmpfile "spec/#{name}.html", <<-HTML
         <html>
           <head></head>
           <body></body>
         </html>
       HTML
+    end
+
+    it "passes for a good spec" do
+      create_passing_spec
+
+      out, err = run_specs
+
+      err.should == ""
+      out.should =~ %r{1 test\(s\), 0 failure\(s\)}
+    end
+    
+    it "reports all results together" do
+      pending
+      create_passing_spec('a')
+      create_passing_spec('b')
+      create_passing_spec('c')
+      
+      out, err = run_specs
+      
+      err.should == ""
+      out.should =~ %r{3 test\(s\), 0 failure\(s\)}
+    end
+
+    it "fails for a bad spec" do
+      create_failing_spec
 
       out, err = run_specs
 
       err.should =~ /Shenandoah specs failed/
       out.should =~ %r{1 test\(s\), 1 failure\(s\)}
+    end
+    
+    it "reports all failures" do
+      pending
+      create_failing_spec('a')
+      create_passing_spec('b')
+      create_failing_spec('c')
+
+      out, err = run_specs
+
+      err.should =~ /Shenandoah specs failed/
+      out.should =~ %r{3 test\(s\), 2 failure\(s\)}
+    end
+    
+    it "only runs the specs matching the arg" do
+      create_passing_spec('foo')
+      create_passing_spec('bar')
+      create_passing_spec('baz')
+      
+      out, err = run_specs('shen:spec[ba]')
+      
+      err.should == ""
+      out.should_not =~ %r{Running foo_spec}
+      out.should =~ %r{Running bar_spec}
+      out.should =~ %r{Running baz_spec}
     end
   end
 end

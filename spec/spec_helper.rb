@@ -2,7 +2,8 @@ require 'spec'
 require 'rubygems'
 # Rake needs to be locked to the version that buildr expects before
 # anything else loads and gets the most recent installed version
-gem 'rake', '= 0.8.4'
+SHEN_RAKE_VERSION = '0.8.4'
+gem 'rake', "= #{SHEN_RAKE_VERSION}"
 
 Spec::Runner.configure do |config|
   

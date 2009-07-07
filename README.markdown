@@ -78,7 +78,7 @@ To run the specs from the command line:
 
 To run an individual spec file called "application_spec.js":
 
-    $ rake shen:spec SHEN_SPEC=application
+    $ rake shen:spec[application]
 
 To start the server:
 
@@ -103,7 +103,7 @@ To run all the specs from the command_line:
 
 To run an individual spec file called "application_spec.js":
 
-    $ rake shen:spec SHEN_SPEC=application
+    $ rake shen:spec[application]
 
 To start the server:
 
