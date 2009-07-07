@@ -68,25 +68,19 @@ describe Shenandoah::Runner do
 
   describe "#run_shell" do
     before do
-      script_contents = ERB.new(<<-RUBY).result(binding)
-        # This is a small script to invoke Runner#run_shell so that its
-        # input and output can be controlled for testing
-        <% Shenandoah::Spec.load_path_additions.each do |p| %>
-          $LOAD_PATH.unshift(<%= p.inspect %>)
-        <% end %>
+      tmpscript "spec_shell.rb", <<-RUBY
         require 'rubygems'
         require 'shenandoah/runner'
         require 'shenandoah/locator'
 
         loc = Shenandoah::DefaultLocator.new(
-          :main_path => <%= @locator.main_path.inspect %>,
-          :spec_path => <%= @locator.spec_path.inspect %>,
-          :tmp_path => <%= @locator.tmp_path.inspect %>
+          :main_path => #{@locator.main_path.inspect},
+          :spec_path => #{@locator.spec_path.inspect},
+          :tmp_path => #{@locator.tmp_path.inspect}
         )
 
         Shenandoah::Runner.new(loc).run_shell
       RUBY
-      tmpfile "spec_shell.rb", script_contents
     end
 
     def run_shell(jslines)

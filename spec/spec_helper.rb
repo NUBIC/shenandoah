@@ -27,6 +27,13 @@ module Shenandoah
         n
       end
       
+      def tmpscript(name, contents)
+        tmpfile name, 
+          Shenandoah::Spec.load_path_additions.
+            map { |a| "$LOAD_PATH.unshift(#{a.inspect})" }.
+            join("\n") + "\n" + contents
+      end
+      
       def tmpdir(name=nil)
         n = @tmpdir
         if (name)

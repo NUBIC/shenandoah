@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require 'shenandoah/tasks'
 require 'shenandoah/locator'
 require 'shenandoah/rails/locator'
+require 'open3'
 
 describe Shenandoah::Tasks do
   describe "init" do
@@ -95,6 +96,72 @@ describe Shenandoah::Tasks do
       @runner.should_receive(:run_console).with(%w(a b c)).and_return(%w(a b))
 
       lambda { @tasks.run_specs }.should raise_error(/Shenandoah specs failed!/)
+    end
+  end
+  
+  describe "running for real" do
+    include Shenandoah::Spec::Tmpfile
+
+    before do
+      tmpscript "Rakefile", <<-RUBY
+        require 'shenandoah/tasks'
+        Shenandoah::Tasks.new
+      RUBY
+    end
+
+    def run_specs
+      FileUtils.cd @tmpdir do
+        Open3.popen3("rake _0.8.4_ shen:spec") do |stdin, stdout, stderr|
+          stdin.close
+          return stdout.read, stderr.read
+        end
+      end
+    end
+
+    it "passes for a good spec" do
+      tmpfile "spec/good_spec.js", <<-JS
+        Screw.Unit(function () {
+          describe("good", function () {
+            it("passes", function () {
+              expect("good").to(equal, "good");
+            });
+          });
+        });
+      JS
+      tmpfile "spec/good.html", <<-HTML
+        <html>
+          <head></head>
+          <body></body>
+        </html>
+      HTML
+
+      out, err = run_specs
+
+      err.should == ""
+      out.should =~ %r{1 test\(s\), 0 failure\(s\)}
+    end
+
+    it "fails for a bad spec" do
+      tmpfile "spec/bad_spec.js", <<-JS
+        Screw.Unit(function () {
+          describe("bad", function () {
+            it("fails", function () {
+              expect("bad").to(equal, "good");
+            });
+          });
+        });
+      JS
+      tmpfile "spec/bad.html", <<-HTML
+        <html>
+          <head></head>
+          <body></body>
+        </html>
+      HTML
+
+      out, err = run_specs
+
+      err.should =~ /Shenandoah specs failed/
+      out.should =~ %r{1 test\(s\), 1 failure\(s\)}
     end
   end
 end
