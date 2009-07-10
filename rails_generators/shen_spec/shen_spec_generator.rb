@@ -5,7 +5,7 @@ module Shenandoah
   module Generators
     class ShenSpecGenerator < ::Rails::Generator::NamedBase
       def manifest
-        spec_path = Shenandoah::Rails::Locator.new.spec_path.sub %r{^#{RAILS_ROOT}/}, ''
+        spec_path = ENV['SHEN_SPEC_PATH'] || Shenandoah::Rails::Locator.new.spec_path.sub(%r{^#{RAILS_ROOT}/}, '')
         record do |m|
           m.directory "#{spec_path}/#{File.dirname(file_path)}"
           m.template 'javascript_spec.js.erb', "#{spec_path}/#{file_path}_spec.js"
