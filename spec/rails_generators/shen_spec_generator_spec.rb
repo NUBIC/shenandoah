@@ -36,12 +36,9 @@ describe "shen_spec generator" do
       'themes/light/alison' => ['themes/light/alison', 'themes.light.Alison']
     }.each do |input, (expected_filename, expected_classname)|
       describe "for '#{input}'" do
-        before do
-          generate(input)
-        end
-
         describe "the HTML" do
           before do
+            generate(input)
             @html = File.read("#{RAILS_ROOT}/test/javascript/#{expected_filename}.html")
           end
 
@@ -60,19 +57,38 @@ describe "shen_spec generator" do
 
         describe "the JS" do
           before do
-            @js = File.read("#{RAILS_ROOT}/test/javascript/#{expected_filename}_spec.js")
+            @input = input
+            @filename = expected_filename
+          end
+          
+          def js
+            @js ||= begin
+              generate(@input)
+              File.read("#{RAILS_ROOT}/test/javascript/#{@filename}_spec.js")
+            end
           end
 
-          it "requires the spec_helper" do
-            @js.should =~ %r{require_spec\('spec_helper.js'\);}
+          it "builds a Screw.Unit spec" do
+            js.should =~ %r{Screw.Unit}
+          end
+
+          it "requires the spec_helper if it exists" do
+            FileUtils.mkdir_p "#{RAILS_ROOT}/test/javascript"
+            File.open("#{RAILS_ROOT}/test/javascript/spec_helper.js", 'w') { }
+            js.should =~ %r{require_spec\('spec_helper.js'\);\n}
+          end
+
+          it "does not require the spec_helper if it does not" do
+            js.should_not =~ %r{require_spec\('spec_helper.js'\);}
+            js.should =~ %r{^require_main} # ensure no blank line
           end
 
           it "requires the presumed main file" do
-            @js.should =~ %r{require_main\('#{expected_filename}.js'\);}
+            js.should =~ %r{require_main\('#{expected_filename}.js'\);}
           end
 
           it "describes the main file" do
-            @js.should =~ %r{describe\('#{expected_classname}', function \(\) \{}
+            js.should =~ %r{describe\('#{expected_classname}', function \(\) \{}
           end
         end
       end

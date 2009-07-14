@@ -1,3 +1,9 @@
+0.1.2
+=====
+
+* Fix javascript spec template (generated code was not correct)
+* Only generate the spec helper require when spec_helper.js exists
+
 0.1.1
 =====
 

@@ -5,12 +5,15 @@ module Shenandoah
   module Generators
     class ShenSpecGenerator < ::Rails::Generator::NamedBase
       def manifest
-        spec_path = ENV['SHEN_SPEC_PATH'] || Shenandoah::Rails::Locator.new.spec_path.sub(%r{^#{RAILS_ROOT}/}, '')
         record do |m|
           m.directory "#{spec_path}/#{File.dirname(file_path)}"
           m.template 'javascript_spec.js.erb', "#{spec_path}/#{file_path}_spec.js"
           m.template 'fixture.html.erb', "#{spec_path}/#{file_path}.html"
         end
+      end
+
+      def spec_path
+        ENV['SHEN_SPEC_PATH'] || Shenandoah::Rails::Locator.new.spec_path.sub(%r{^#{RAILS_ROOT}/}, '')
       end
 
       def file_path
@@ -21,6 +24,10 @@ module Shenandoah
         klass, *mods_rev = class_name.sub(/Spec$/, '').split('::').reverse
         mod_spec = mods_rev.reverse.collect { |m| m.downcase }.join('.')
         [mod_spec, klass].reject { |p| p == "" }.join '.'
+      end
+      
+      def spec_helper?
+        File.exist?("#{destination_root}/#{spec_path}/spec_helper.js")
       end
     end
   end
