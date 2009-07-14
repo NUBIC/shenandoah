@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{shenandoah}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Rhett Sutphin"]
-  s.date = %q{2009-06-16}
+  s.date = %q{2009-07-14}
   s.email = %q{rhett@detailedbalance.net}
   s.extra_rdoc_files = [
     "ChangeLog.markdown",
@@ -115,6 +115,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rails>, [">= 2.1.0"])
       s.add_development_dependency(%q<rspec>, ["= 1.2.4"])
       s.add_development_dependency(%q<rack-test>, [">= 0.3.0"])
+      s.add_development_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_development_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
       s.add_development_dependency(%q<braid>, [">= 0.5.0"])
       s.add_development_dependency(%q<rake>, ["= 0.8.4"])
@@ -122,6 +123,13 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<net-sftp>, ["= 2.0.2"])
       s.add_development_dependency(%q<highline>, ["= 1.5.0"])
       s.add_development_dependency(%q<hoe>, ["= 1.12.2"])
+      s.add_development_dependency(%q<rubyzip>, ["= 0.9.1"])
+      s.add_development_dependency(%q<builder>, ["= 2.1.2"])
+      s.add_development_dependency(%q<rubyforge>, ["= 1.0.3"])
+      s.add_development_dependency(%q<rjb>, ["= 1.1.6"])
+      s.add_development_dependency(%q<Antwrap>, ["= 0.7.0"])
+      s.add_development_dependency(%q<xml-simple>, ["= 1.0.12"])
+      s.add_development_dependency(%q<archive-tar-minitar>, ["= 0.5.2"])
     else
       s.add_dependency(%q<sinatra>, [">= 0.9.2"])
       s.add_dependency(%q<haml>, [">= 2.0.9"])
@@ -129,6 +137,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rails>, [">= 2.1.0"])
       s.add_dependency(%q<rspec>, ["= 1.2.4"])
       s.add_dependency(%q<rack-test>, [">= 0.3.0"])
+      s.add_dependency(%q<hpricot>, [">= 0.8.1"])
       s.add_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
       s.add_dependency(%q<braid>, [">= 0.5.0"])
       s.add_dependency(%q<rake>, ["= 0.8.4"])
@@ -136,6 +145,13 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<net-sftp>, ["= 2.0.2"])
       s.add_dependency(%q<highline>, ["= 1.5.0"])
       s.add_dependency(%q<hoe>, ["= 1.12.2"])
+      s.add_dependency(%q<rubyzip>, ["= 0.9.1"])
+      s.add_dependency(%q<builder>, ["= 2.1.2"])
+      s.add_dependency(%q<rubyforge>, ["= 1.0.3"])
+      s.add_dependency(%q<rjb>, ["= 1.1.6"])
+      s.add_dependency(%q<Antwrap>, ["= 0.7.0"])
+      s.add_dependency(%q<xml-simple>, ["= 1.0.12"])
+      s.add_dependency(%q<archive-tar-minitar>, ["= 0.5.2"])
     end
   else
     s.add_dependency(%q<sinatra>, [">= 0.9.2"])
@@ -144,6 +160,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rails>, [">= 2.1.0"])
     s.add_dependency(%q<rspec>, ["= 1.2.4"])
     s.add_dependency(%q<rack-test>, [">= 0.3.0"])
+    s.add_dependency(%q<hpricot>, [">= 0.8.1"])
     s.add_dependency(%q<rspec_hpricot_matchers>, [">= 1.0.0"])
     s.add_dependency(%q<braid>, [">= 0.5.0"])
     s.add_dependency(%q<rake>, ["= 0.8.4"])
@@ -151,5 +168,12 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<net-sftp>, ["= 2.0.2"])
     s.add_dependency(%q<highline>, ["= 1.5.0"])
     s.add_dependency(%q<hoe>, ["= 1.12.2"])
+    s.add_dependency(%q<rubyzip>, ["= 0.9.1"])
+    s.add_dependency(%q<builder>, ["= 2.1.2"])
+    s.add_dependency(%q<rubyforge>, ["= 1.0.3"])
+    s.add_dependency(%q<rjb>, ["= 1.1.6"])
+    s.add_dependency(%q<Antwrap>, ["= 0.7.0"])
+    s.add_dependency(%q<xml-simple>, ["= 1.0.12"])
+    s.add_dependency(%q<archive-tar-minitar>, ["= 0.5.2"])
   end
 end

@@ -5,6 +5,7 @@
 * Add task descriptions for all the tasks -- visible with rake -T
 * Automatically absolutize locator paths for plain-Rakefile use
 * Allow specs to be constrained using rake task arguments instead of an env var
+* Allow spec generator to be invoked from any project (not just rails projects) via `rake shen:generate[spec_name]`
 
 0.1.0
 =====
