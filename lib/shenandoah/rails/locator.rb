@@ -19,7 +19,7 @@ module Shenandoah
             return "#{candidate}/javascript"
           end
         end
-        
+
         "test/javascript" # default
       end
     end

@@ -5,7 +5,7 @@ module Shenandoah
   # The server which enables in-browser execution of Screw.Unit specs in
   # Shenandoah.
   #
-  # It exposes a list of all the specs at the root of the server, 
+  # It exposes a list of all the specs at the root of the server,
   # organized by subdirectory, with links to individual test fixtures.
   # The contents of the +main_path+ and +spec_path+ in the configured locator
   # are exposed under <tt>/main</tt> and <tt>/spec</tt> respectively.
@@ -20,10 +20,10 @@ module Shenandoah
         collect { |t| [File.dirname(t), File.basename(t).sub(/_spec.js$/, '.html')] }.
         inject({}) { |h, (dir, file)| h[dir] ||= []; h[dir] << file; h }
       @sections = section_map.collect { |dir, files| [dir, files.sort] }.sort
-      
+
       haml :index
     end
-    
+
     get '/main/*' do
       map_file(options.locator.main_path, params[:splat].first, "Main")
     end

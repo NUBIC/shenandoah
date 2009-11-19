@@ -46,7 +46,7 @@ describe Shenandoah::DefaultLocator do
       %w(main_path spec_path tmp_path).each do |kind|
         k = kind.to_sym
         it "absolutizes #{kind} against the working directory" do
-          Shenandoah::DefaultLocator.new(k => 'bar').send(k).should == 
+          Shenandoah::DefaultLocator.new(k => 'bar').send(k).should ==
             File.join(FileUtils.pwd, 'bar')
         end
       end

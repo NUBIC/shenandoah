@@ -9,7 +9,7 @@ module Shenandoah
         record do |m|
           m.directory "lib/tasks"
           m.file "shenandoah.rake", "lib/tasks/shenandoah.rake"
-          
+
           m.directory spec_path
           m.file "spec_helper.js", "#{spec_path}/spec_helper.js"
           m.file "application_spec.js", "#{spec_path}/application_spec.js"

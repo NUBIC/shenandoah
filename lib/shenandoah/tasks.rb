@@ -6,7 +6,7 @@ require 'shenandoah/server'
 module Shenandoah
   class Tasks
     attr_accessor :locator, :options, :runner
-    
+
     def initialize(options = {})
       @options = options
       @locator =
@@ -21,7 +21,7 @@ module Shenandoah
       create_run_task
       create_gen_task unless options[:generate_task] == false
     end
-    
+
     def run_specs(pattern=nil)
       files = @locator.spec_files
       if ENV['SHEN_SPEC']
@@ -38,12 +38,12 @@ module Shenandoah
         raise "Shenandoah specs failed!"
       end
     end
-    
+
     def generate_spec(name)
       raise "Please specify a spec name.  E.g., shen:generate[foo]." unless name
       require 'rails_generator'
       require 'rails_generator/scripts/generate'
-      ::Rails::Generator::Base::prepend_sources( 
+      ::Rails::Generator::Base::prepend_sources(
         ::Rails::Generator::PathSource.new(
           :shenandoah, File.join(File.dirname(__FILE__), '../../rails_generators'))
       )
@@ -60,17 +60,17 @@ module Shenandoah
         ['shen_spec', '-t', name], :destination => dest,
         :quiet => Rake.application.options.quiet)
     end
-    
+
     protected
-    
+
     def trace(msg)
       $stderr.puts msg if Rake.application.options.trace
     end
-    
+
     def default_locator_type
       DefaultLocator
     end
-    
+
     def create_serve_task
       desc "Start the in-browser JavaScript spec runner on http://localhost:4410/"
       task('shen:serve') do |t|
@@ -81,21 +81,21 @@ module Shenandoah
         Shenandoah::Server.run!
       end
     end
-    
+
     def create_shell_task
       desc "Start the Shenandoah interactive JavaScript shell"
       task('shen:shell') do |t|
         @runner.run_shell
       end
     end
-    
+
     def create_run_task
       desc "Run the JavaScript specs"
       task('shen:spec', :pattern) do |t, args|
         run_specs args.pattern
       end
     end
-    
+
     def create_gen_task
       desc "Generate a skeleton spec.  Give the spec name as a task arg -- i.e. shen:generate[commands]."
       task('shen:generate', :basename) do |t, args|

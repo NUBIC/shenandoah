@@ -73,7 +73,7 @@ describe Shenandoah::Server do
   %w(main spec).each do |kind|
     describe "/#{kind}/*" do
       before do
-        app.set :locator, 
+        app.set :locator,
           Shenandoah::DefaultLocator.new(
             :"#{kind}_path" => "#{self.tmpdir}/#{kind.hash}")
       end
@@ -141,7 +141,7 @@ describe Shenandoah::Server do
 
     describe "when overridden" do
       before do
-        app.set :locator, 
+        app.set :locator,
           Shenandoah::DefaultLocator.new(:spec_path => self.tmpdir)
         tmpfile "screw.css", ".passed { color: blue }"
         get '/screw.css'
@@ -170,7 +170,7 @@ describe Shenandoah::Server do
     include RspecHpricotMatchers
 
     before do
-      app.set :locator, 
+      app.set :locator,
         Shenandoah::DefaultLocator.new(:spec_path => File.join(self.tmpdir, 'spec'))
       tmpfile "spec/common_spec.js", "DC"
       tmpfile "spec/some/thing_spec.js", "DC"

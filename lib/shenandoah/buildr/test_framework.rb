@@ -19,7 +19,7 @@ module Buildr # :nodoc:
       def tests(dependencies)
         @locator.spec_files
       end
-      
+
       def run(tests, dependencies)
         @runner.run_console(tests)
       end

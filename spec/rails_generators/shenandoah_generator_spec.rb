@@ -16,7 +16,7 @@ describe "shenandoah generator" do
         generate
         @path = "#{RAILS_ROOT}/lib/tasks/shenandoah.rake"
       end
-      
+
       it "happens" do
         File.exist?(@path).should be_true
       end

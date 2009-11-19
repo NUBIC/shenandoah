@@ -25,7 +25,7 @@ module Shenandoah
         mod_spec = mods_rev.reverse.collect { |m| m.downcase }.join('.')
         [mod_spec, klass].reject { |p| p == "" }.join '.'
       end
-      
+
       def spec_helper?
         File.exist?("#{destination_root}/#{spec_path}/spec_helper.js")
       end

@@ -6,7 +6,7 @@ require 'shenandoah/rails/tasks'
 
 describe Shenandoah::Rails::Tasks do
   include Shenandoah::Spec::Tmpfile
-  
+
   before do
     RAILS_ROOT = tmpdir('rails')
   end

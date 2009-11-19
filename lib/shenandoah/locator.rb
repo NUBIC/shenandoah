@@ -13,7 +13,7 @@ module Shenandoah
     def spec_files
       FileList["#{spec_path}/**/*_spec.js"]
     end
-    
-    private 
+
+    private
   end
 end

@@ -60,7 +60,7 @@ describe "shen_spec generator" do
             @input = input
             @filename = expected_filename
           end
-          
+
           def js
             @js ||= begin
               generate(@input)

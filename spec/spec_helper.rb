@@ -6,7 +6,7 @@ SHEN_RAKE_VERSION = '0.8.4'
 gem 'rake', "= #{SHEN_RAKE_VERSION}"
 
 Spec::Runner.configure do |config|
-  
+
 end
 
 module Shenandoah
@@ -17,24 +17,24 @@ module Shenandoah
         File.join(File.dirname(__FILE__), '..', 'lib')
       ]
     end
-    
+
     module Tmpfile
       attr_writer :tmpdir
-      
+
       def tmpfile(name, contents="contents not important")
         n = "#{tmpdir}/#{name}"
         FileUtils.mkdir_p File.dirname(n)
         File.open(n, 'w') { |f| f.write contents }
         n
       end
-      
+
       def tmpscript(name, contents)
-        tmpfile name, 
+        tmpfile name,
           Shenandoah::Spec.load_path_additions.
             map { |a| "$LOAD_PATH.unshift(#{a.inspect})" }.
             join("\n") + "\n" + contents
       end
-      
+
       def tmpdir(name=nil)
         n = @tmpdir
         if (name)
