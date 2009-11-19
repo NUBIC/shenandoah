@@ -2,8 +2,6 @@ require 'rake'
 require 'shenandoah/locator'
 require 'shenandoah/runner'
 require 'shenandoah/server'
-require 'rails_generator'
-require 'rails_generator/scripts/generate'
 
 module Shenandoah
   class Tasks
@@ -21,7 +19,7 @@ module Shenandoah
       create_serve_task
       create_shell_task
       create_run_task
-      create_gen_task
+      create_gen_task unless options[:generate_task] == false
     end
     
     def run_specs(pattern=nil)
@@ -43,6 +41,8 @@ module Shenandoah
     
     def generate_spec(name)
       raise "Please specify a spec name.  E.g., shen:generate[foo]." unless name
+      require 'rails_generator'
+      require 'rails_generator/scripts/generate'
       ::Rails::Generator::Base::prepend_sources( 
         ::Rails::Generator::PathSource.new(
           :shenandoah, File.join(File.dirname(__FILE__), '../../rails_generators'))

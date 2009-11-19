@@ -1,6 +1,8 @@
 0.1.3
 =====
 
+* Correct generator-related bug that made rails mode not work
+
 0.1.2
 =====
 
