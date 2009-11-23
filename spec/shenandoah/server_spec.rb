@@ -59,8 +59,13 @@ describe Shenandoah::Server do
       last_response.body.should =~ %r{function require_main\(}
     end
 
+    it "includes the multirunner code for a single test" do
+      last_response.body.should =~ %r{window.parent.jQuery\('iframe'\)}
+    end
+
     it "was last modified at the latest date of the combined files" do
       maxTime = Dir["#{File.dirname(__FILE__)}/../../lib/shenandoah/javascript/{browser,common}/*.js"].
+        reject { |filename| filename =~ /multirunner.js$/ || filename =~ /parsequery/i || filename =~ /index.js$/ }.
         collect { |filename| File.stat(filename).mtime }.max
       Time.httpdate(last_response.headers['Last-Modified']).should == maxTime
     end
@@ -114,37 +119,44 @@ describe Shenandoah::Server do
     end
   end
 
-  describe "/screw.css" do
+  describe "/shenandoah.css" do
     describe "by default" do
       before do
-        get '/screw.css'
-        @included = "#{File.dirname(__FILE__)}/../../lib/shenandoah/css/screw.css"
+        get '/shenandoah.css'
+        @sass = File.expand_path(
+          "lib/shenandoah/css/shenandoah.sass", File.dirname(__FILE__) + "/../..")
       end
 
       it "is available" do
         last_response.should be_ok
       end
 
-      it "is the included version" do
-        last_response.body.should == File.read(@included)
+      it "is the CSS version of the included shenandoah.sass" do
+        last_response.body.should include('#frames iframe {')
+        last_response.body.should include('.describes .describe {')
+      end
+
+      it "includes the compass reset styles directly" do
+        last_response.body.should_not include("@import url(compass/reset.css)")
+        last_response.body.should include("table, caption, tbody, tfoot, thead, tr, th, td")
       end
 
       it "has the correct last modified version" do
         Time.httpdate(last_response.headers['Last-Modified']).should ==
-          File.stat(@included).mtime
+          File.stat(@sass).mtime
       end
 
       it "is CSS" do
-        last_response.headers['Content-Type'].should == 'text/css'
+        last_response.content_type.should == 'text/css'
       end
     end
 
-    describe "when overridden" do
+    describe "when overridden with CSS" do
       before do
         app.set :locator,
           Shenandoah::DefaultLocator.new(:spec_path => self.tmpdir)
-        tmpfile "screw.css", ".passed { color: blue }"
-        get '/screw.css'
+        tmpfile "shenandoah.css", ".passed { color: blue }"
+        get '/shenandoah.css'
       end
 
       it "is available" do
@@ -157,12 +169,56 @@ describe Shenandoah::Server do
 
       it "has the correct last modified version" do
         Time.httpdate(last_response.headers['Last-Modified']).should ==
-          File.stat("#{self.tmpdir}/screw.css").mtime
+          File.stat("#{self.tmpdir}/shenandoah.css").mtime
       end
 
       it "is CSS" do
-        last_response.headers['Content-Type'].should == 'text/css'
+        last_response.content_type.should == 'text/css'
       end
+    end
+
+    describe "when overridden with Sass" do
+      before do
+        app.set :locator,
+          Shenandoah::DefaultLocator.new(:spec_path => self.tmpdir)
+        tmpfile "shenandoah.sass", ".passed\n  color: blue"
+        get '/shenandoah.css'
+      end
+
+      it "is available" do
+        last_response.should be_ok
+      end
+
+      it "is the version from the spec dir" do
+        last_response.body.should == ".passed {\n  color: blue; }\n"
+      end
+
+      it "has the correct last modified version" do
+        Time.httpdate(last_response.headers['Last-Modified']).should ==
+          File.stat("#{self.tmpdir}/shenandoah.sass").mtime
+      end
+
+      it "is CSS" do
+        last_response.content_type.should == 'text/css'
+      end
+    end
+  end
+
+  describe "/screw.css" do
+    before do
+      get '/screw.css'
+    end
+
+    it "redirects" do
+      last_response.status.should == 301
+    end
+
+    it "points to /shenandoah.css" do
+      last_response['Location'].should == '/shenandoah.css'
+    end
+
+    it "includes a deprecation note" do
+      last_response.body.should == "This URI is deprecated.  Use <a href='/shenandoah.css'>/shenandoah.css</a>."
     end
   end
 
@@ -173,6 +229,7 @@ describe Shenandoah::Server do
       app.set :locator,
         Shenandoah::DefaultLocator.new(:spec_path => File.join(self.tmpdir, 'spec'))
       tmpfile "spec/common_spec.js", "DC"
+      tmpfile "spec/application_spec.js", "DC"
       tmpfile "spec/some/thing_spec.js", "DC"
       get "/"
     end
@@ -202,15 +259,99 @@ describe Shenandoah::Server do
     end
 
     it "includes lists of links" do
-      last_response.body.should have_tag("ul a", :count => 2)
+      last_response.body.should have_tag("ul a", :count => 3)
     end
 
     it "includes a link to a spec in the root" do
-      last_response.body.should have_tag("a[@href='spec/common.html']", "common")
+      last_response.body.should have_tag("a[@href='/spec/common.html']", "common")
     end
 
     it "includes link to a spec in a subdirectory" do
-      last_response.body.should have_tag("a[@href='spec/some/thing.html']", "thing")
+      last_response.body.should have_tag("a[@href='/spec/some/thing.html']", "thing")
+    end
+
+    it "includes a checkbox for a spec in the root" do
+      last_response.body.should have_tag("input[@value='/spec/common.html']")
+    end
+
+    it "includes a checkbox for a spec in a subdirectory" do
+      last_response.body.should have_tag("input[@value='/spec/some/thing.html']")
+    end
+
+    it "includes a form to run the multirunner" do
+      last_response.body.should have_tag("form[@action='/multirunner']")
+    end
+
+    it "includes a submit button for the multirunner form" do
+      last_response.body.should have_tag("input[@type='submit']")
+    end
+  end
+
+  describe "/multirunner" do
+    include RspecHpricotMatchers
+
+    before do
+      get "/multirunner?spec=/spec/common.html"
+    end
+
+    it "is available" do
+      last_response.should be_ok
+    end
+
+    it "is html" do
+      last_response.content_type.should == 'text/html'
+    end
+
+    it "includes the multirunner script" do
+      last_response.body.should have_tag("script[@src='/shenandoah/multirunner.js']")
+    end
+
+    it "includes the container" do
+      last_response.body.should have_tag("div#runner")
+    end
+  end
+
+  describe "/shenandoah/multirunner.js" do
+    before do
+      get '/shenandoah/multirunner.js'
+    end
+
+    it "is available" do
+      last_response.should be_ok
+    end
+
+    it "is javascript" do
+      last_response.content_type.should == 'text/javascript'
+    end
+
+    it "contains the multirunner script" do
+      last_response.body.should =~ /shenandoah.Multirunner/
+    end
+
+    it "includes jQuery" do
+      last_response.body.should =~ %r{\* jQuery JavaScript Library v1\.3\.2}
+    end
+
+    it "includes parseQuery" do
+      last_response.body.should =~ %r{jQuery.parseQuery =}
+    end
+  end
+
+  describe "/js/common/jquery-1.3.2.js" do
+    before do
+      get '/js/common/jquery-1.3.2.js'
+    end
+
+    it "is available" do
+      last_response.should be_ok
+    end
+
+    it "is javascript" do
+      last_response.content_type.should == 'application/javascript'
+    end
+
+    it "includes jQuery" do
+      last_response.body.should =~ %r{\* jQuery JavaScript Library v1\.3\.2}
     end
   end
 end

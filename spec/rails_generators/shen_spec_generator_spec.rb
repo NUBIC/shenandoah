@@ -50,8 +50,8 @@ describe "shen_spec generator" do
             @html.should =~ %r{src="/shenandoah/browser-runner.js"}
           end
 
-          it "includes screw.css" do
-            @html.should =~ %r{href="/screw.css"}
+          it "includes shenandoah.css" do
+            @html.should =~ %r{href="/shenandoah.css"}
           end
         end
 

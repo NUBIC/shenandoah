@@ -1,0 +1,138 @@
+@import compass/reset
+
+!running = #CC6600
+!passed = #5A753D
+!failed = #993300
+!border_color = #6E6E6E
+!background_color = #EDEBD5
+
+body
+  padding: 0.5em
+  font-family: Helvetica, sans-serif
+  background= !background_color
+
+li
+  list-style-type: none
+
+.focused
+  background-color: #F4F2E4
+  *
+    opacity: 1.0
+
+h3.status
+  font-style: italic
+  padding-bottom: 1em
+
+h1, h2, p
+  opacity: 0.4
+
+.describes
+  padding-left: 0
+
+  h1
+    font-size: 1.1em
+    color: #877C21
+    line-height: 1.8em
+    margin: 0pt 0pt 0.6em
+    border-bottom: 1px solid transparent
+    font-weight: bold
+
+    &:hover
+      cursor: pointer
+      color: #000
+      background-color: #F4F2E4
+      border-bottom: 1px solid #9A8E51
+
+  .describe
+    margin-left: 0.6em
+    padding-left: 0.6em
+    margin-bottom: 2px
+    margin-right: 2px
+    border= 1px "dotted" !border_color
+
+    .its .it
+      list-style-type: lower-roman
+      list-style-position: outside
+      margin-left: 2.0em
+
+      h2
+        font-weight: normal
+        font-style: normal
+        padding-left: 0.5em
+        font-size: 1.0em
+        color: #877C21
+        line-height: 1.8em
+        margin: 0 0 0.5em
+        border-bottom: 1px solid transparent
+
+      &.enqueued h2
+        background-color= !running
+        color: white !important
+
+      &.passed h2
+        background-color= !passed
+        color: white !important
+
+      &.failed
+        h2
+          background-color= !failed
+          color: white !important
+
+        p
+          margin-left: 1em
+          color= !failed
+
+      h2:hover
+        cursor: pointer
+        color: #000 !important
+        border-bottom: 1px solid #9A8E51
+
+// Index styles
+
+body#index
+  padding: 3em
+  ul li
+    margin-left: 1.2em
+    list-style-type: disc
+    line-height: 1.2em
+  h2
+    font-size: 1.2em
+    margin: 0.5em 0
+  #controls
+    margin-top: 1em
+  #select-all
+    margin-left: 1.2em
+
+// Multirunner styles
+
+#frames
+  clear: both
+
+#frames iframe
+  width: 94%
+  height: 90%
+  display: none
+  border= 2px "solid" !border_color
+  margin: 1em 2%
+  clear: both
+  &.active
+    display: block
+
+#specs li
+  display: block
+  padding: 4px
+  margin: 2px
+  background-color= !background_color - #333
+  float: left
+  border= 2px "solid" !background_color
+  cursor: pointer
+  &.active
+    border-color= !border_color
+  &.passed
+    background-color= !passed
+    color: #ddd
+  &.failed
+    background-color= !failed
+    color: #ddd
+  span.name
+    color: #fff

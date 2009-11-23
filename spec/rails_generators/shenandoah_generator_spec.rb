@@ -70,8 +70,8 @@ describe "shenandoah generator" do
             File.read(@path).should =~ %r{src="/shenandoah/browser-runner.js"}
           end
 
-          it "links to the served screw.css" do
-            File.read(@path).should =~ %r{href="/screw.css"}
+          it "links to the served shenandoah.css" do
+            File.read(@path).should =~ %r{href="/shenandoah.css"}
           end
         end
       end

@@ -1,12 +1,22 @@
 %html
   %head
-    %link{ :rel => "stylesheet", :href => "/screw.css", :type => "text/css", :charset => "utf-8" }
-  %body
+    %script{ :src => '/js/common/jquery-1.3.2.js' }
+    %script{ :src => '/js/browser/index.js' }
+    %link{ :rel => "stylesheet", :href => "/shenandoah.css", :type => "text/css", :charset => "utf-8" }
+  %body#index
     - if options.respond_to?(:project_name) && options.project_name
       %h1= "Specs for #{options.project_name}"
-    - @sections.each do |section, tests|
-      %h2= section == '.' ? '[root]' : section
-      %ul
-        - tests.each do |test|
-          %li
-            %a{ :href => ["spec", section, test].reject { |s| s == '.' }.join('/') }= test.sub(/.html$/, '')
+    %label#select-all
+      %input{ :type => 'checkbox', :name => 'select-all' } 
+        %a select all
+    %form{ :method => 'GET', :action => '/multirunner' }
+      - @sections.each do |section, tests|
+        %h2= section == '.' ? '[root]' : section
+        %ul
+          - tests.each do |test|
+            %li
+              %label
+                %input{ :type => 'checkbox', :name => 'spec', :value => test.href }
+                %a{ :href => test.href }= test.name
+      #controls
+        %input{ :type => 'submit', :value => 'Run selected' }

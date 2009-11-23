@@ -18,6 +18,7 @@ begin
     gem.add_runtime_dependency('haml', '>= 2.0.9')
     gem.add_runtime_dependency('rake')
     gem.add_runtime_dependency('rails', '>= 2.1.0')
+    gem.add_runtime_dependency('compass')
 
     # Have to use rspec 1.2.4 for buildr compat
     gem.add_development_dependency('rspec', '= 1.2.4')

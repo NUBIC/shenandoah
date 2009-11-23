@@ -5,3 +5,4 @@ rdoc
 pkg
 spec/tmp
 *.gemspec
+.sass-cache

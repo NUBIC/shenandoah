@@ -1,6 +1,9 @@
 0.2.0
 =====
 
+* Running multiple specs in-browser using iframes (issue #5)
+* Use a single stylesheet for single specs, multirunner, and index page
+* Allow override of the default runner stylesheet using a file at the root of spec_path; either shenandoah.sass or shenandoah.css
 * Stop publishing the gem to rubyforge (but continue deploying rdoc there)
 * Basic full-execution test coverage with cucumber features
 
