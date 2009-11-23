@@ -2,6 +2,7 @@
 =====
 
 * Correct generator-related bug that made rails mode not work
+* Publish with/on Gemcutter
 
 0.1.2
 =====

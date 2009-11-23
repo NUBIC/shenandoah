@@ -41,6 +41,7 @@ begin
     gem.add_development_dependency('archive-tar-minitar', '= 0.5.2')
   end
 
+  Jeweler::GemcutterTasks.new
   Jeweler::RubyforgeTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
