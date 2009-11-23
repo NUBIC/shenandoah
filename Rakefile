@@ -86,5 +86,8 @@ task :uninstall do |t|
   system("sudo gem uninstall shenandoah -v #{version}")
 end
 
+# Disable github release since I don't want to commit the gemspec
+Rake::Task[:release].prerequisites.delete 'github:release'
+
 task :build => [:gemspec]
 task :install => [:uninstall]
