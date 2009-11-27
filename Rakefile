@@ -88,6 +88,8 @@ end
 
 # Disable github release since I don't want to commit the gemspec
 Rake::Task[:release].prerequisites.delete 'github:release'
+# Disable rubyforge releasing, but keep rdoc deployment task
+Rake::Task[:release].prerequisites.delete 'rubyforge:release'
 
 task :build => [:gemspec]
 task :install => [:uninstall]

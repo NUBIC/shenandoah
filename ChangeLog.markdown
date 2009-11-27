@@ -1,3 +1,8 @@
+0.2.0
+=====
+
+* Stop publishing the gem to rubyforge (but continue deploying rdoc there)
+
 0.1.3
 =====
 
