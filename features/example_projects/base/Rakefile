@@ -1,0 +1,7 @@
+begin
+  dev_shen = File.expand_path('../../..', File.dirname(__FILE__))
+  $LOAD_PATH.unshift(File.join(dev_shen, 'lib'))
+end
+
+require 'shenandoah/tasks'
+Shenandoah::Tasks.new

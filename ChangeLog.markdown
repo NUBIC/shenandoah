@@ -2,6 +2,7 @@
 =====
 
 * Stop publishing the gem to rubyforge (but continue deploying rdoc there)
+* Basic full-execution test coverage with cucumber features
 
 0.1.3
 =====
