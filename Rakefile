@@ -25,7 +25,7 @@ begin
     gem.add_development_dependency('hpricot', '>= 0.8.1')
     gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
     gem.add_development_dependency('braid', '>= 0.5.0')
-    
+
     # These are the dependencies for the vendored buildr (used for testing)
     gem.add_development_dependency('rake', '= 0.8.4')
     gem.add_development_dependency('net-ssh', '= 2.0.11')
@@ -107,3 +107,5 @@ Rake::Task[:release].prerequisites.delete 'rubyforge:release'
 
 task :build => [:gemspec]
 task :install => [:uninstall]
+
+task :ci => [:features, :spec]
