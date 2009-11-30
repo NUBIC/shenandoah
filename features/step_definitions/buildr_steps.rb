@@ -3,6 +3,8 @@ Given /a buildr project/ do
 
   open("buildfile", 'w') do |f|
     f.write <<-RUBY
+      repositories.remote << 'http://repo1.maven.org/maven2'
+
       $LOAD_PATH.unshift(File.join(#{root_path.inspect}, 'lib'))
       require 'shenandoah/buildr'
 
