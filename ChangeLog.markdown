@@ -1,9 +1,21 @@
+0.2.1
+=====
+
+## Internal
+
+* Update embedded buildr mirror (used for testing) to apache's git mirror of buildr instead of github's
+
 0.2.0
 =====
+
+## Features
 
 * Running multiple specs in-browser using iframes (issue #5)
 * Use a single stylesheet for single specs, multirunner, and index page
 * Allow override of the default runner stylesheet using a file at the root of spec_path; either shenandoah.sass or shenandoah.css
+
+## Internal
+
 * Stop publishing the gem to rubyforge (but continue deploying rdoc there)
 * Basic full-execution test coverage with cucumber features
 
