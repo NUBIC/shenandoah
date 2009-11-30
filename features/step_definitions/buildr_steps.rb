@@ -22,7 +22,6 @@ Given /a buildr project/ do
 end
 
 When /^I list the available buildr tasks$/ do
-  @tasks = `buildr help:tasks`.scan(/\n\s*(\S+)\s*#/).collect { |m| m.first }
+  @tasks = `#{buildr_exec} help:tasks`.scan(/\n\s*(\S+)\s*#/).collect { |m| m.first }
   $?.should == 0
 end
-

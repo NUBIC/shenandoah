@@ -24,6 +24,23 @@ class ShenandoahWorld
     @base_project ||= File.expand_path("../example_projects/base", File.dirname(__FILE__))
   end
 
+  def piped_execute(command)
+    @pipe = IO.popen(command)
+  end
+
+  def executable(name)
+    case name
+    when 'buildr':
+      buildr_exec
+    else
+      name
+    end
+  end
+
+  def buildr_exec
+    "#{root_path}/vendor/buildr/_buildr"
+  end
+
   def switch_to_project(name)
     path = File.expand_path("../#{name}", base_project);
     self.temp_projects << path

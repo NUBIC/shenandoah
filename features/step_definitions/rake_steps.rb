@@ -22,10 +22,6 @@ Then /^the task list should (not )?include (\S+)$/ do |no, task_name|
   end
 end
 
-When %r{^I execute \`([^`]+)\`$} do |command|
-  @pipe = IO.popen(command)
-end
-
 Then %r{^(\d+) specs? should run$} do |count|
   @pipe.read.
     scan(/(\d+) test\(s\)/).
