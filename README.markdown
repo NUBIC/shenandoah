@@ -28,23 +28,7 @@ The following sections describe how to invoke Shenandoah with various build syst
 Installing and Running
 ----------------------
 
-The Shenandoah gem is hosted at [Gemcutter](http://gemcutter.org/).  If you haven't yet, set up your gem environment to use Gemcutter:
-
-    $ gem install gemcutter
-    $ gem tumble
-
-You can verify that this worked like so:
-
-    $ gem sources
-    *** CURRENT SOURCES ***
-    
-    http://gemcutter.org
-    http://gems.rubyforge.org/
-    http://gems.github.com/
-
-If the gemcutter URL isn't present, run `gem tumble` again or check [Gemcutter's docs](http://gemcutter.org/pages/docs) for advice.
-
-When that's square, install Shenandoah:
+The Shenandoah gem is hosted at [Gemcutter](http://gemcutter.org/).  Install it like so:
 
     $ gem install shenandoah
 
