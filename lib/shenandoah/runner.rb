@@ -42,7 +42,9 @@ module Shenandoah
     alias :shenandoah_root :shen_path_to
 
     def rhino_command(*args)
-      "java -jar '#{shen_path_to 'lib/shenandoah/javascript/console/js.jar'}' -w -debug '#{args.join("' '")}'"
+      # -opt -1 here disables dynamic compilation.  This is because env.js 1.1rc2
+      # requires it -- it should be removed if this changes in the future.
+      "java -jar '#{shen_path_to 'lib/shenandoah/javascript/console/env-js.jar'}' -opt -1 -w -debug '#{args.join("' '")}'"
     end
 
     def shell_html_path
