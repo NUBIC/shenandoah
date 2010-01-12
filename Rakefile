@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require 'ci/reporter/rake/rspec'
 
 begin
   require 'jeweler'
@@ -26,6 +27,8 @@ begin
     gem.add_development_dependency('hpricot', '>= 0.8.1')
     gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
     gem.add_development_dependency('braid', '>= 0.5.0')
+    gem.add_development_dependency('cucumber', '~> 0.6.0')
+    gem.add_development_dependency('ci_reporter', '~> 1.6.0')
 
     # These are the dependencies for the vendored buildr (used for testing)
     gem.add_development_dependency('rake', '= 0.8.7')
@@ -109,4 +112,18 @@ Rake::Task[:release].prerequisites.delete 'rubyforge:release'
 task :build => [:gemspec]
 task :install => [:uninstall]
 
-task :ci => [:features, :spec]
+namespace :ci do
+  ENV["CI_REPORTS"] ||= "reports/spec-xml"
+
+  task :all => [:features, :spec]
+
+  Spec::Rake::SpecTask.new(:spec => :"ci:setup:rspec") do |spec|
+    spec.libs << 'lib' << 'spec'
+    spec.verbose = true
+    spec.spec_files = FileList['spec/**/*_spec.rb']
+  end
+
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = "features --format progress --strict --format junit --out reports/cucumber-xml --format html --out reports/features.html"
+  end
+end

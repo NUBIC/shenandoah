@@ -6,3 +6,4 @@ pkg
 spec/tmp
 *.gemspec
 .sass-cache
+reports
