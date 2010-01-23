@@ -10,7 +10,7 @@ Given /^an empty plain-rake project$/ do
 end
 
 When /^I list the available rake tasks$/ do
-  @tasks = `rake -T`.scan(/rake (\S+)/).collect { |m| m.first }
+  @tasks = `#{executable('rake')} -T`.scan(/rake (\S+)/).collect { |m| m.first }
   $?.should == 0
 end
 

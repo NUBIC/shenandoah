@@ -1,9 +1,7 @@
+require File.expand_path("../../vendor/gems/environment", __FILE__)
+
 require 'spec'
 require 'rubygems'
-# Rake needs to be locked to the version that buildr expects before
-# anything else loads and gets the most recent installed version
-SHEN_RAKE_VERSION = '0.8.7'
-gem 'rake', "= #{SHEN_RAKE_VERSION}"
 
 Spec::Runner.configure do |config|
 
@@ -16,6 +14,10 @@ module Shenandoah
         File.dirname(__FILE__),
         File.join(File.dirname(__FILE__), '..', 'lib')
       ]
+    end
+
+    def self.rake_bin
+      @rake_bin ||= File.expand_path("../../gem_bin/rake", __FILE__)
     end
 
     module Tmpfile

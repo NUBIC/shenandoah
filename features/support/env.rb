@@ -32,9 +32,15 @@ class ShenandoahWorld
     case name
     when 'buildr':
       buildr_exec
+    when 'rake':
+      rake_exec
     else
       name
     end
+  end
+
+  def rake_exec
+    "#{root_path}/gem_bin/rake"
   end
 
   def buildr_exec

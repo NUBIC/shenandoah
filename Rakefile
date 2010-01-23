@@ -12,37 +12,35 @@ begin
     gem.authors = ["Rhett Sutphin"]
     gem.rubyforge_project = "detailedbalance"
 
-    # Exclude test-only vendored buildr
+    # Exclude test-only vendored buildr & bundled gems
     gem.files.exclude("vendor/**/*")
+    gem.files.exclude("gem_bin/*")
 
-    gem.add_runtime_dependency('sinatra', '>= 0.9.2')
-    gem.add_runtime_dependency('haml', '>= 2.0.9')
-    gem.add_runtime_dependency('rake')
-    gem.add_runtime_dependency('rails', '>= 2.1.0')
-    gem.add_runtime_dependency('compass')
+    # TODO: submit this to jeweler
+    (Class.new do
+      def initialize(gemspec)
+        @gem = gemspec
+        instance_eval File.read('Gemfile')
+      end
 
-    # Have to use rspec 1.2.4 for buildr compat
-    gem.add_development_dependency('rspec', '= 1.2.8')
-    gem.add_development_dependency('rack-test', '>= 0.3.0')
-    gem.add_development_dependency('hpricot', '>= 0.8.1')
-    gem.add_development_dependency('rspec_hpricot_matchers', '>= 1.0.0')
-    gem.add_development_dependency('braid', '>= 0.5.0')
-    gem.add_development_dependency('cucumber', '~> 0.6.0')
-    gem.add_development_dependency('ci_reporter', '~> 1.6.0')
+      def method_missing(msg, *args)
+        # skip unimplemented bits
+      end
 
-    # These are the dependencies for the vendored buildr (used for testing)
-    gem.add_development_dependency('rake', '= 0.8.7')
-    gem.add_development_dependency('builder', '= 2.1.2')
-    gem.add_development_dependency('net-ssh', '= 2.0.15')
-    gem.add_development_dependency('net-sftp', '= 2.0.2')
-    gem.add_development_dependency('rubyzip', '= 0.9.1')
-    gem.add_development_dependency('highline', '= 1.5.1')
-    gem.add_development_dependency('rubyforge', '= 1.0.5')
-    gem.add_development_dependency('hoe', '= 2.3.3')
-    gem.add_development_dependency('rjb', '= 1.1.9')
-    gem.add_development_dependency('Antwrap', '= 0.7.0')
-    gem.add_development_dependency('xml-simple', '= 1.0.12')
-    gem.add_development_dependency('archive-tar-minitar', '= 0.5.2')
+      def gem(*args)
+        if @only && @only.include?(:development)
+          @gem.add_development_dependency(*args)
+        else
+          @gem.add_runtime_dependency(*args)
+        end
+      end
+
+      def only(*kinds)
+        @only = kinds
+        yield
+        @only = nil
+      end
+    end).new(gem)
   end
 
   Jeweler::GemcutterTasks.new
@@ -115,7 +113,11 @@ task :install => [:uninstall]
 namespace :ci do
   ENV["CI_REPORTS"] ||= "reports/spec-xml"
 
-  task :all => [:features, :spec]
+  task :all => [:unbundle, :features, :spec]
+
+  task :unbundle do
+    system('gem bundle --cached')
+  end
 
   Spec::Rake::SpecTask.new(:spec => :"ci:setup:rspec") do |spec|
     spec.libs << 'lib' << 'spec'

@@ -127,7 +127,7 @@ describe Shenandoah::Tasks do
 
     def run_specs(task='shen:spec')
       FileUtils.cd @tmpdir do
-        Open3.popen3("rake _#{SHEN_RAKE_VERSION}_ #{task}") do |stdin, stdout, stderr|
+        Open3.popen3("#{Shenandoah::Spec::rake_bin} #{task}") do |stdin, stdout, stderr|
           stdin.close
           return stdout.read, stderr.read
         end

@@ -4,6 +4,7 @@
 ## Internal
 
 * Update embedded buildr mirror (used for testing) to apache's git mirror of buildr instead of github's
+* Use bundler for development dependencies
 
 0.2.0
 =====
