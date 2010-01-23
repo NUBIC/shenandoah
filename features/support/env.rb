@@ -1,3 +1,5 @@
+require 'vendor/gems/environment'
+
 require 'spec/expectations'
 
 Before do
