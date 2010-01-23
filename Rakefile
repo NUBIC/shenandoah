@@ -113,11 +113,7 @@ task :install => [:uninstall]
 namespace :ci do
   ENV["CI_REPORTS"] ||= "reports/spec-xml"
 
-  task :all => [:unbundle, :features, :spec]
-
-  task :unbundle do
-    system('gem bundle --cached')
-  end
+  task :all => [:features, :spec]
 
   Spec::Rake::SpecTask.new(:spec => :"ci:setup:rspec") do |spec|
     spec.libs << 'lib' << 'spec'
