@@ -17,6 +17,7 @@ only :development do
   gem 'ci_reporter', '~> 1.6.0'
   gem 'jeweler'
   gem 'thin' # needed because webrick doesn't handle SIGTERM correctly
+  gem 'rails', '2.3.5' # this is the version the cucumber tests use
 
   # These are the dependencies for the vendored buildr (used for testing)
   gem 'rake', '= 0.8.7'

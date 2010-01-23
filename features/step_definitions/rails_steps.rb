@@ -1,7 +1,7 @@
 
 Given /an empty rails project/ do
   switch_to_project('rails')
-  system("rails . > /dev/null")
+  system("#{executable('rails')} . > /dev/null")
 
   File.open('config/initializers/shenandoh_dev.rb', 'w') do |f|
     f.write <<-RUBY

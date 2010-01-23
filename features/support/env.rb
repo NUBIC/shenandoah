@@ -17,7 +17,7 @@ class ShenandoahWorld
   include FileUtils
 
   def root_path
-    @root ||= File.expand_path("../../..")
+    @root ||= File.expand_path("../..", File.dirname(__FILE__))
   end
 
   def base_project
@@ -29,22 +29,21 @@ class ShenandoahWorld
   end
 
   def executable(name)
-    case name
-    when 'buildr':
+    if 'buildr' == name
       buildr_exec
-    when 'rake':
-      rake_exec
+    elsif File.exist?(gem_exec(name))
+      gem_exec(name)
     else
       name
     end
   end
 
-  def rake_exec
-    "#{root_path}/gem_bin/rake"
-  end
-
   def buildr_exec
     "#{root_path}/vendor/buildr/_buildr"
+  end
+
+  def gem_exec(name)
+    "#{root_path}/gem_bin/#{name}"
   end
 
   def switch_to_project(name)
