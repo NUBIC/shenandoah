@@ -1,4 +1,5 @@
-require 'rubygems'
+require 'vendor/gems/environment'
+
 require 'rake'
 require 'ci/reporter/rake/rspec'
 
